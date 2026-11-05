@@ -1,0 +1,4 @@
+# Store text with LF in the repo; shell scripts stay LF even on Windows checkouts
+# so they run under Git Bash and WSL.
+* text=auto
+*.sh text eol=lf
