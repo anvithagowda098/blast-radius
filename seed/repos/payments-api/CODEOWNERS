@@ -1,0 +1,11 @@
+# Payments team. GitHub reads top to bottom; the last matching line wins.
+/package.json        @old-maintainer
+*                    @acme/payments-team
+/package.json        @devon-pay
+
+# The next three lines are invalid in CODEOWNERS, so GitHub skips them:
+# negation (!), character ranges ([ ]), and an owner that isn't @user,
+# @org/team or an email.
+!/legacy/            @acme/payments-team
+/docs/[ab]*.md       @acme/docs
+/infra/              not-a-valid-owner

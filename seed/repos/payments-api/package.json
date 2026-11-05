@@ -1,0 +1,14 @@
+{
+  "name": "payments-api",
+  "version": "3.12.1",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@tanstack/history": "1.160.0",
+    "@tanstack/router-core": "^1.168.0",
+    "express": "^4.21.2"
+  }
+}

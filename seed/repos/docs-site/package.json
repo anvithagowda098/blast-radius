@@ -1,0 +1,16 @@
+{
+  "name": "docs-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "playground": "vite"
+  },
+  "dependencies": {
+    "marked": "^4.3.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-router": "1.169.8",
+    "vite": "^4.5.0"
+  }
+}

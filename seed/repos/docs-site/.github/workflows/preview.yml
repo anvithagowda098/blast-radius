@@ -1,0 +1,26 @@
+name: preview
+
+# Pwn-request shape: pull_request_target runs with this repo's secrets,
+# and the checkout below pulls the PR author's code into that job.
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy preview
+        run: npx vercel deploy --prebuilt --token "$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}

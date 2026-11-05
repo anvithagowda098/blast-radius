@@ -1,0 +1,4 @@
+# Web platform. GitHub reads top to bottom; the last matching line wins.
+*                  @acme/web-team
+/.github/          @acme/platform
+/package.json      @maya-web

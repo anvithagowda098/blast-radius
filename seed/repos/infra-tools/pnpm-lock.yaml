@@ -1,0 +1,67 @@
+---
+lockfileVersion: '9.0'
+
+importers:
+
+  .:
+    configDependencies: {}
+    packageManagerDependencies:
+      pnpm:
+        specifier: 9.15.0
+        version: 9.15.0
+
+packages:
+
+  pnpm@9.15.0:
+    resolution: {integrity: sha512-FAKE}
+    hasBin: true
+
+snapshots:
+
+  pnpm@9.15.0: {}
+
+---
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@tanstack/history':
+        specifier: 1.161.6
+        version: 1.161.6
+      yaml:
+        specifier: ^2.6.0
+        version: 2.6.1
+    devDependencies:
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+packages:
+
+  '@tanstack/history@1.161.6':
+    resolution: {integrity: sha512-FAKE}
+    engines: {node: '>=12'}
+
+  typescript@5.6.3:
+    resolution: {integrity: sha512-FAKE}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  yaml@2.6.1:
+    resolution: {integrity: sha512-FAKE}
+    engines: {node: '>= 14'}
+    hasBin: true
+
+snapshots:
+
+  '@tanstack/history@1.161.6': {}
+
+  typescript@5.6.3: {}
+
+  yaml@2.6.1: {}
