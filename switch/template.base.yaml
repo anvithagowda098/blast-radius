@@ -1,0 +1,186 @@
+#: Source for switch/blast-radius.template.yaml. Edit this file and
+#: switch/agents/*.md, then run: python scripts/build_template.py
+#: Lines starting with "#:" are dropped from the built template.
+# Blast Radius: npm supply-chain incident response in Switch rooms.
+# Switch template, format version 2 (docs/TEMPLATES.md, "Version 2", in
+# sandbox-quantum/switch). Every agent is a Claude Code session working in your
+# blast-radius checkout and calling `python -m blast_radius ...`.
+#
+# This template creates #sec-alerts and the agents. br-commander creates the
+# per-team br-<team> rooms, their links and the tracker document at run time,
+# after the IC approves.
+version: 2
+params:
+  directory:
+    type: directory
+    label: Blast Radius checkout
+    description: Absolute path to your clone of blast-radius. Every agent works here and shares its out/ folder.
+  advisory:
+    type: string
+    label: Advisory file
+    description: Path inside the checkout. JSON, a Wiz-style CSV, or a pasted table.
+    default: seed/advisories/tanstack-2026-05-11.json
+  repos:
+    type: string
+    label: Repos to scan
+    description: Folder inside the checkout whose subfolders are the repos.
+    default: seed/repos
+  bridge:
+    type: bridge
+    label: Messaging app
+    description: Where #sec-alerts is created. The team rooms go to the same app.
+    default: [$first]
+    required: false
+  include_patcher:
+    type: boolean
+    label: Add br-patcher (stretch)
+    description: Prepares fix branches and diffs on the IC's request. Never pushes.
+    default: false
+    input: advanced
+  provider:
+    type: provider
+    description: The coding agent that runs every Blast Radius agent.
+    default: [claude]
+    input: advanced
+  machine:
+    type: machine
+    description: The machine the agents run on.
+    default: [$first]
+    input: advanced
+form:
+  advanced: { label: Advanced, open: false }
+
+resources:
+  scout:
+    type: agent
+    name: br-scout
+    display_name: BR Scout
+    description: Finds which repos installed the compromised package versions, from their lockfiles.
+    provider: "{provider}"
+    machine: "{machine}"
+    directory: "{directory}"
+    isolation: shared
+    allow_existing: true
+    addressing: { anyone_in: [sec_alerts] }
+    instructions: |
+      @@scout@@
+
+  forensics:
+    type: agent
+    name: br-forensics
+    display_name: BR Forensics
+    description: Maps the CI secrets and OIDC each affected repo exposed, and who owns the repo.
+    provider: "{provider}"
+    machine: "{machine}"
+    directory: "{directory}"
+    isolation: shared
+    allow_existing: true
+    addressing: { anyone_in: [sec_alerts] }
+    instructions: |
+      @@forensics@@
+
+  commander:
+    type: agent
+    name: br-commander
+    display_name: BR Commander
+    description: Deputy to the IC. Opens and links the team rooms, owns the tracker document, chases owners, drafts the postmortem.
+    provider: "{provider}"
+    machine: "{machine}"
+    directory: "{directory}"
+    isolation: shared
+    allow_existing: true
+    addressing: owner-agents
+    instructions: |
+      @@commander@@
+
+  planner:
+    type: agent
+    name: br-planner
+    display_name: BR Planner
+    description: Posts each team's rotation checklist and turns owners' CAN replies into tracker updates.
+    provider: "{provider}"
+    machine: "{machine}"
+    directory: "{directory}"
+    isolation: shared
+    allow_existing: true
+    # `anyone`, not `anyone_in`: team owners reach it in the br-<team> rooms,
+    # which br-commander creates at run time, so the template can't name them.
+    addressing: anyone
+    instructions: |
+      @@planner@@
+
+  patcher:
+    type: agent
+    if: "{include_patcher}"
+    name: br-patcher
+    display_name: BR Patcher
+    description: "Stretch: prepares a fix branch and diff on the IC's request. Never pushes."
+    provider: "{provider}"
+    machine: "{machine}"
+    directory: "{directory}"
+    isolation: shared
+    allow_existing: true
+    addressing: owner-agents
+    instructions: |
+      @@patcher@@
+
+  incident:
+    type: group
+    name: "Blast Radius {$date}"
+    description: The incident's main room and the per-team rooms br-commander opens.
+
+  sec_alerts:
+    type: room
+    name: sec-alerts
+    group: incident
+    description: >-
+      Where npm supply-chain advisories land and the security lead runs the
+      response. br-commander opens one linked br-<team> room per affected team.
+    channel_type: channel_private
+    bridge: "{bridge}"
+    agents:
+      - if: "{include_patcher}"
+        value: [scout, forensics, commander, planner, patcher]
+      - value: [scout, forensics, commander, planner]
+    users:
+      - if: "{bridge}"
+        value: ["{$creator}"]
+      - value: []
+    roles:
+      - name: deputy
+        exclusive: true
+        instructions: >-
+          Scribe and internal liaison for the IC: keeps the tracker document,
+          opens and links team rooms on approval, chases owners, drafts the
+          postmortem. Held by {commander.name}.
+    docs:
+      - name: Runbook
+        description: How a Blast Radius response runs in this room.
+        content: |
+          # Blast Radius runbook
+
+          Agents do the paperwork; humans make the calls.
+
+          1. An advisory lands here. Mention {scout.name} with the advisory file
+             or paste its table.
+          2. {scout.name} posts which repos installed a bad version, then asks
+             {forensics.name} to map their CI exposure and owners.
+          3. The IC (the security lead) reads both and replies
+             "@{commander.name} approve" to approve scope and containment.
+          4. {commander.name} opens one br-<team> room per team, links it to this
+             room both ways, invites the owner and {planner.name}, and creates
+             the tracker document here.
+          5. {planner.name} posts each team's checklist. Containment comes
+             first; then the owner rotates in order and reports in CAN format:
+             "C: runners paused · A: rotated NPM_TOKEN · N: none".
+          6. {commander.name} keeps the tracker current, chases on "chase", and
+             drafts the blameless postmortem when the IC asks.
+
+          Useful commands: !agents-status, !roles, !list-documents.
+    instructions: |
+      This is the incident room. The security lead (the IC) approves scope and
+      containment here; agents never act on an approval from anyone else.
+      Forensics reports exposure, not proof that anything was taken.
+    kickoff: |
+      @{scout.name} advisory `{advisory}` just landed. Scan `{repos}` and post
+      your summary here.
