@@ -22,9 +22,9 @@ These follow from the docs but haven't been run against a Switch server:
 
 1. **The template imports** without warnings. In particular, check `isolation: shared`,
    `allow_existing: true`, and `{$date}` in the group name.
-2. **`owner-agents` lets the IC reach br-commander.** The docs list `owner` and
-   `owner-agents` as separate values. If the IC gets `not_permitted`, the
-   commander needs a policy covering both, set from the Gateway.
+2. **`owner-agents` lets the IC reach br-commander.** Likely fine: Console's
+   agent form calls this setting "Only me and my agents". The IC must have
+   linked their chat account, or the commander treats them as a stranger.
 3. **`anyone_in: [sec_alerts]` admits agents.** br-scout hands off to
    br-forensics with an @mention. If that's refused, use `anyone`.
 4. **br-commander can create rooms, links and room documents.** The docs say
