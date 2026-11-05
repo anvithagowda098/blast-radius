@@ -242,6 +242,6 @@ def plan_markdown(plan: dict) -> str:
         lines += [f"   `{cmd}`" for cmd in step["commands"][:2]]
     lines.append("**Hardening after the incident**")
     lines += [f"- {tip}" for tip in plan["hardening"]]
-    lines.append("Report back in CAN format, e.g. "
-                 "`C: runners paused · A: rotated NPM_TOKEN · N: Vercel admin for VERCEL_TOKEN`")
+    lines.append("Report back here, mentioning @br-planner, in CAN format, e.g. "
+                 "`@br-planner C: runners paused · A: rotated NPM_TOKEN · N: Vercel admin for VERCEL_TOKEN`")
     return "\n".join(lines)

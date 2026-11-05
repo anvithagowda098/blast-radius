@@ -31,11 +31,11 @@ DEFAULT_OUT = ROOT / "out"
 
 # (team, owner, reply, minutes after the first scan on the demo's simulated clock)
 DEMO_REPLIES = [
-    ("web", "@maya", "C: release and preview workflows disabled, runner paused · "
+    ("web", "@maya", "@br-planner C: release and preview workflows disabled, runner paused · "
                      "A: rotated NPM_TOKEN and RELEASE_GH_PAT · N: none", 34),
-    ("payments", "@devon", "Condition: deploys paused\nActions: rotated the AWS access key\n"
+    ("payments", "@devon", "@br-planner Condition: deploys paused\nActions: rotated the AWS access key\n"
                            "Needs: Vault admin to revoke VAULT_TOKEN", 51),
-    ("web", "@maya", "rotated the vercel token", 68),
+    ("web", "@maya", "@br-planner rotated the vercel token", 68),
 ]
 
 

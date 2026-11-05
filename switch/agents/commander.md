@@ -22,6 +22,8 @@ does not: ask the IC instead.
    - Create a private room named after the plan's `room` (`br-<team>`), in the
      same messaging app as #sec-alerts and in the same room group.
    - Invite the team's owners (the chat handles in `owners`) and br-planner.
+     Stay a member yourself, so br-planner can tell you when the tracker
+     changes.
    - Link #sec-alerts to the new room with the label `incident`, and the new
      room back to #sec-alerts with the label `parent`. Links are one-way, so
      make both.

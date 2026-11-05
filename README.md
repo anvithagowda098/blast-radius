@@ -1,5 +1,7 @@
 # Blast Radius
 
+[![tests](https://github.com/anvithagowda098/blast-radius/actions/workflows/tests.yml/badge.svg)](https://github.com/anvithagowda098/blast-radius/actions/workflows/tests.yml)
+
 **When an npm worm hits, detection takes minutes and the response takes hours of chasing people. Blast Radius turns that response into Switch rooms: agents do the paperwork, humans make the calls.**
 
 <!-- TODO: 30-second demo GIF at docs/demo.gif -->
@@ -81,10 +83,10 @@ On Windows, run `python -m blast_radius demo` instead of `scripts/demo.sh`. The 
 | 2 | br-scout → br-forensics | `#sec-alerts` | (automatic) 3 affected repos, 1 clean, then exposure per repo and owner |
 | 3 | IC | `#sec-alerts` | `@br-commander approve` |
 | 4 | br-commander | new `br-web`, `br-payments` | opens, links and invites, creates the tracker document; br-planner posts each checklist |
-| 5 | web owner | `br-web` | `C: release and preview workflows disabled, runner paused · A: rotated NPM_TOKEN and RELEASE_GH_PAT · N: none` |
-| 6 | payments owner | `br-payments` | `Condition: deploys paused` / `Actions: rotated the AWS access key` / `Needs: Vault admin to revoke VAULT_TOKEN` |
+| 5 | web owner | `br-web` | `@br-planner C: release and preview workflows disabled, runner paused · A: rotated NPM_TOKEN and RELEASE_GH_PAT · N: none` |
+| 6 | payments owner | `br-payments` | `@br-planner Condition: deploys paused` / `Actions: rotated the AWS access key` / `Needs: Vault admin to revoke VAULT_TOKEN` |
 | 7 | IC | `#sec-alerts` | `@br-commander chase`, then `!list-documents` to show the tracker |
-| 8 | web owner | `br-web` | `rotated the vercel token` |
+| 8 | web owner | `br-web` | `@br-planner rotated the vercel token` |
 | 9 | IC | `#sec-alerts` | `@br-commander draft the postmortem`, then `!roles` to show who holds `deputy` |
 
 ## Positioning and honest limits

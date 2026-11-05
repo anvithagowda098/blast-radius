@@ -22,6 +22,8 @@ CONTAIN_WORDS = {"contained", "isolated", "paused", "disabled", "quarantined"}
 NEGATIONS = {"not", "no", "never"}
 NO_NEEDS = {"none", "nothing", "n/a", "na", "-", "no", "nope", "all good"}
 
+# Owners start their reply by mentioning the agent ("@br-planner C: ..."); Discord may send "<@123>".
+_LEADING_MENTIONS = re.compile(r"^\s*(?:(?:@[\w.-]+|<@!?\w+>)[\s,:]*)+")
 _SECTION_RE = re.compile(r"(?:^|(?<=[\n·|]))\s*(condition|actions?|needs?|c|a|n)\s*:\s*", re.IGNORECASE)
 _CLAUSE_SPLIT = re.compile(r"[,;.\n]|\band\b|\bbut\b|\bthen\b", re.IGNORECASE)
 _WORD_RE = re.compile(r"[a-z][a-z']*")
@@ -200,6 +202,7 @@ def _mentions(text: str, team_state: dict) -> list[str]:
 def apply_reply(state: dict, team: str, text: str, actor: str, now: str | None = None) -> ReplyResult:
     now = now or utc_now()
     team_state = _team(state, team)
+    text = _LEADING_MENTIONS.sub("", text)
     sections = parse_can(text)
     result = ReplyResult()
 
