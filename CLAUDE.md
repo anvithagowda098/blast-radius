@@ -203,10 +203,10 @@ Pin the safe version and add `minimumReleaseAge` / `min-release-age`. In the dem
 - [x] `advisory.py` + `scout.py` + tests
 - [x] `forensics.py` + tests (secrets, `id-token`, pwn-request flags, CODEOWNERS last-match)
 - [x] `rotation.py` + `tracker.py` + tests
-- [x] `cli.py` + `scripts/demo.sh` (offline end to end: prints each agent's room message; `demo.sh` itself not yet run under bash)
+- [x] `cli.py` + `scripts/demo.sh` (offline end to end: prints each agent's room message; `demo.sh` verified under Git Bash and in CI)
 - [x] `switch/agents/*.md` instructions + `switch/blast-radius.template.yaml` (built by `scripts/build_template.py`; not yet imported into a live Switch)
 - [x] `postmortem.py` + tests
-- [x] `scripts/reset-demo.sh` (wraps `python -m blast_radius reset --seed`; the git part is untested: no git here)
+- [x] `scripts/reset-demo.sh` (wraps `python -m blast_radius reset --seed`; verified on a fresh clone)
 - [x] README (outline in section 11) + architecture diagram (GIF, Wispr screenshot and reference links still TODO)
 - [ ] Stretch: Patcher, OSV lookup, pnpm edge cases
 
