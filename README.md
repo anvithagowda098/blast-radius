@@ -1,7 +1,5 @@
 # Blast Radius
 
-[![tests](https://github.com/anvithagowda098/blast-radius/actions/workflows/tests.yml/badge.svg)](https://github.com/anvithagowda098/blast-radius/actions/workflows/tests.yml)
-
 **When an npm worm hits, detection takes minutes and the response takes hours of chasing people. Blast Radius turns that response into Switch rooms: agents do the paperwork, humans make the calls.**
 
 <!-- TODO: 30-second demo GIF at docs/demo.gif -->

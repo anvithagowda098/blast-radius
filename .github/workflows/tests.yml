@@ -3,9 +3,12 @@ name: tests
 # Proves the repo reproduces from a clean clone: tests on the oldest and newest
 # supported Python, the built Switch template is current, and both demo scripts
 # run under bash. No secrets, read-only token.
+#
+# Manual-only for now: GitHub Actions is unavailable on this account until its
+# billing is sorted, and runs on push would fail at startup. To run on every
+# push again, add `push:` and `pull_request:` under `on:`.
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
