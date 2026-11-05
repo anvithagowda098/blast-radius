@@ -1,0 +1,8 @@
+# Pipeline state written by `python -m blast_radius ...`
+out/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
