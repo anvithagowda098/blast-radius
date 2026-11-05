@@ -1,0 +1,83 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@tanstack/react-router':
+        specifier: 1.169.5
+        version: 1.169.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@tanstack/router-devtools':
+        specifier: ^1.169.0
+        version: 1.169.2(react@18.3.1)
+
+packages:
+
+  '@tanstack/history@1.161.6':
+    resolution: {integrity: sha512-FAKE}
+
+  '@tanstack/history@1.161.9':
+    resolution: {integrity: sha512-FAKE}
+
+  '@tanstack/react-router@1.169.5':
+    resolution: {integrity: sha512-FAKE}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+
+  '@tanstack/router-devtools@1.169.2':
+    resolution: {integrity: sha512-FAKE}
+    peerDependencies:
+      react: '>=18.0.0'
+
+  '@tanstack/setup@https://codeload.github.com/tanstack/router/tar.gz/79ac49eedf774dd4b0cfa308722bc463cfe5885c':
+    resolution:
+      tarball: https://codeload.github.com/tanstack/router/tar.gz/79ac49eedf774dd4b0cfa308722bc463cfe5885c
+    version: 0.0.1
+
+  react-dom@18.3.1:
+    resolution: {integrity: sha512-FAKE}
+    peerDependencies:
+      react: ^18.3.1
+
+  react@18.3.1:
+    resolution: {integrity: sha512-FAKE}
+
+snapshots:
+
+  '@tanstack/history@1.161.6': {}
+
+  '@tanstack/history@1.161.9': {}
+
+  '@tanstack/react-router@1.169.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/history': 1.161.6
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@tanstack/setup': https://codeload.github.com/tanstack/router/tar.gz/79ac49eedf774dd4b0cfa308722bc463cfe5885c
+
+  '@tanstack/router-devtools@1.169.2(react@18.3.1)':
+    dependencies:
+      '@tanstack/history': 1.161.9
+      react: 18.3.1
+
+  '@tanstack/setup@https://codeload.github.com/tanstack/router/tar.gz/79ac49eedf774dd4b0cfa308722bc463cfe5885c':
+    optional: true
+
+  react-dom@18.3.1(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
+  react@18.3.1: {}
