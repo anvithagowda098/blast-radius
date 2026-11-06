@@ -55,3 +55,11 @@ These follow from the docs but haven't been run against a Switch server:
   name, description, instructions and content, and rejects the whole run
   without them. `tests/test_template.py` now checks the fields the server's
   models require.
+- **Discord turns `@br-planner` into a role mention, `<@&id>`.** Owner replies
+  can start with it, so the reply parser strips it. Inside a code span Discord
+  shows it raw, so the checklist keeps the mention outside its example.
+- **Verified live:** kickoff → br-scout → br-forensics handoff; br-commander
+  refusing an approval from an agent; after the IC's approval, two private team
+  rooms in the group, linked both ways, the `deputy` role, the tracker document,
+  and both checklists. Owners must be real Discord members with linked accounts
+  before br-commander can invite them.

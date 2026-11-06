@@ -50,7 +50,8 @@ def test_one_line_can_reply_with_carried_verb(state):
     assert result.contained and result.needs == ""
 
 
-@pytest.mark.parametrize("mention", ["@br-planner ", "@br-planner: ", "<@1234567890> ", "@br-planner @br-commander "])
+@pytest.mark.parametrize("mention", ["@br-planner ", "@br-planner: ", "<@1234567890> ", "<@&1568258002660622407> ",
+                                     "@br-planner @br-commander "])
 def test_leading_mentions_are_ignored(state, mention):
     result = tracker.apply_reply(state, "web", mention + "C: runners paused · A: rotated NPM_TOKEN · N: none",
                                  "@maya", now=NOW)
