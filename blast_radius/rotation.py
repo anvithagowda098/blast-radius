@@ -19,6 +19,7 @@ CATEGORY_ORDER = [
     "host-creds", "unlisted",
 ]
 ROTATION_ORDER = ["identity", "secrets-manager", "cloud", "hosting", "sessions", "npm", "ssh", "other"]
+SOLO_TEAM = "solo"  # solo developer mode: one personal plan for every repo
 
 # Secrets that are one credential: rotating one means rotating all of them.
 CREDENTIAL_GROUPS = [("AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN")]
@@ -177,9 +178,12 @@ def _hardening(repos: list[dict], credentials: list[Credential]) -> list[str]:
     return tips
 
 
-def plan_team(team: str, repos: list[dict], advisory: dict) -> TeamPlan:
+def plan_team(team: str, repos: list[dict], advisory: dict, owners: list[str] | None = None) -> TeamPlan:
     repo_names = sorted(r["repo"] for r in repos)
-    owners = sorted({h for r in repos for h in (r.get("chat_owners") or r.get("github_owners") or [])})
+    if owners is None:
+        owners = sorted({h for r in repos for h in (r.get("chat_owners") or r.get("github_owners") or [])})
+    approval = ("You're your own incident commander: decide this before any revoke step."
+                if team == SOLO_TEAM else "Needs IC approval before any revoke step.")
     credentials = collect_credentials(repos)
     oidc_jobs = [_job_label(r, j) for r in repos for j in r["jobs"] if j["installs_deps"] and j["id_token_write"]]
     steps: list[Step] = []
@@ -190,7 +194,7 @@ def plan_team(team: str, repos: list[dict], advisory: dict) -> TeamPlan:
     add("contain", "Contain: pause CI and isolate hosts that installed the bad version",
         f"Disable the affected workflows and pause self-hosted runners for "
         f"{', '.join(f'`{n}`' for n in repo_names)}; take developer machines that ran an install offline. "
-        "Needs IC approval before any revoke step.",
+        f"{approval}",
         ["gh workflow disable <workflow> --repo <org>/<repo>"], approval=True)
     add("host-check", "Remove persistence before rotating", _host_check_detail(advisory),
         ["python -m blast_radius hostcheck"])
@@ -219,8 +223,11 @@ def plan_team(team: str, repos: list[dict], advisory: dict) -> TeamPlan:
     return TeamPlan(team, f"br-{team}", owners, repo_names, credentials, steps, _hardening(repos, credentials))
 
 
-def build_plans(forensics_report: dict) -> list[TeamPlan]:
+def build_plans(forensics_report: dict, solo: bool = False) -> list[TeamPlan]:
+    """One plan per team; with `solo`, one personal plan covering every repo."""
     advisory = forensics_report.get("advisory") or {}
+    if solo:
+        return [plan_team(SOLO_TEAM, list(forensics_report["repos"]), advisory, owners=["you"])]
     by_team: dict[str, list[dict]] = {}
     for repo in forensics_report["repos"]:
         by_team.setdefault(repo.get("team") or "unowned", []).append(repo)
@@ -228,21 +235,28 @@ def build_plans(forensics_report: dict) -> list[TeamPlan]:
 
 
 def plan_markdown(plan: dict) -> str:
+    solo = plan["team"] == SOLO_TEAM
     owners = ", ".join(plan["owners"]) or "unassigned (IC to assign)"
     lines = [
-        f"**Rotation checklist** · team **{plan['team']}** · owner {owners}",
+        "**Your rotation checklist** · solo developer mode" if solo
+        else f"**Rotation checklist** · team **{plan['team']}** · owner {owners}",
         f"Repos: {', '.join(f'`{r}`' for r in plan['repos'])} · {len(plan['credentials'])} credentials "
         "to rotate. Contain first, then go in order.",
     ]
     for step in plan["steps"]:
-        flag = " (needs IC approval)" if step["requires_ic_approval"] else ""
+        flag = (" (your call: decide before revoking)" if solo else " (needs IC approval)") \
+            if step["requires_ic_approval"] else ""
         lines.append(f"{step['n']}. [ ] **{step['title']}**{flag}")
         if step["detail"]:
             lines.append(f"   {step['detail']}")
         lines += [f"   `{cmd}`" for cmd in step["commands"][:2]]
     lines.append("**Hardening after the incident**")
     lines += [f"- {tip}" for tip in plan["hardening"]]
-    # The mention stays outside the code span: inside one, Discord shows Switch's raw "<@&id>".
-    lines.append("Report back here: mention @br-planner, then write in CAN format, e.g. "
-                 "`C: runners paused · A: rotated NPM_TOKEN · N: Vercel admin for VERCEL_TOKEN`")
+    if solo:
+        lines.append("Track your progress: `python -m blast_radius tracker reply --team solo --from you "
+                     "\"rotated NPM_TOKEN\"`, then `python -m blast_radius tracker show`")
+    else:
+        # The mention stays outside the code span: inside one, Discord shows Switch's raw "<@&id>".
+        lines.append("Report back here: mention @br-planner, then write in CAN format, e.g. "
+                     "`C: runners paused · A: rotated NPM_TOKEN · N: Vercel admin for VERCEL_TOKEN`")
     return "\n".join(lines)

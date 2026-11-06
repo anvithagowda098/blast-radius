@@ -67,11 +67,31 @@ On Windows, run `python -m blast_radius demo` instead of `scripts/demo.sh`. The 
 ### With Switch
 
 1. Clone this repo on the machine where Switch Console runs your agents.
-2. In [`seed/owners.yml`](seed/owners.yml), change the chat handles to the accounts linked in your Switch server: yours as `security_lead`, and the two team owners'. Each person must link their own chat account; an unlinked account matches nobody.
+2. In [`seed/owners.yml`](seed/owners.yml), set the chat handles to **exact Discord usernames** (the unique lowercase name, without `@`): yours as `security_lead`, and the two team owners'. Team owners must be members of the Discord server; Switch matches their usernames exactly when br-commander invites them.
 3. In Switch Console, import [`switch/blast-radius.template.yaml`](switch/blast-radius.template.yaml). Set **Blast Radius checkout** to the absolute path of this clone, and pick the messaging app.
 4. Run it. The kickoff asks br-scout to scan the seed advisory.
 
-[`switch/README.md`](switch/README.md) lists what still needs checking on a live server.
+[`switch/README.md`](switch/README.md) records what the first live run verified, and the Windows setup fixes it needed.
+
+## Solo developer mode
+
+No team, no Switch server: when a worm hits and you're your own security team, run the same checks on your own projects and laptop. Everything goes to `out/solo` so it never mixes with the team run.
+
+```bash
+python -m blast_radius scout --repos ~/code --out out/solo
+python -m blast_radius forensics --out out/solo
+python -m blast_radius plan --solo --out out/solo
+python -m blast_radius hostcheck
+python -m blast_radius tracker init --out out/solo
+python -m blast_radius tracker approve --team solo --by you --out out/solo
+python -m blast_radius tracker reply --team solo --from you "rotated NPM_TOKEN" --out out/solo
+python -m blast_radius tracker show --out out/solo
+```
+
+- **`scout --repos`** scans every project folder inside a directory; use `--repo <path>` (repeatable) for single projects, and `--advisory <file>` for a different advisory.
+- **`plan --solo`** puts every repo into one personal checklist: contain first (your call), remove persistence, then rotate in order, including the credentials on your own machine.
+- **`hostcheck`** reads only `~/.claude/settings.json` and lists its `SessionStart` hooks, flagging any that look like the worm's persistence.
+- **`tracker approve`** records your own containment decision; **`tracker reply`** takes the same plain-English or CAN-format updates the team owners use.
 
 ## Demo script
 

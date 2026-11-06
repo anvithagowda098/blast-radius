@@ -90,3 +90,17 @@ def test_missing_previous_step(tmp_path):
     with pytest.raises(SystemExit) as exc:
         cli.main(["forensics", "--out", str(tmp_path)])
     assert "run the previous step first" in str(exc.value)
+
+
+def test_solo_developer_flow(tmp_path, capsys):
+    from conftest import REPOS
+    out = ["--out", str(tmp_path)]
+    assert cli.main(["scout", "--repo", str(REPOS / "web-app"), "--repo", str(REPOS / "infra-tools"), *out]) == 0
+    assert "**1 affected**, 1 clean" in capsys.readouterr().out
+    assert cli.main(["forensics", *out]) == 0
+    assert cli.main(["plan", "--solo", *out]) == 0
+    assert capsys.readouterr().out.count("**Your rotation checklist**") == 1
+    assert cli.main(["tracker", "init", *out]) == 0
+    capsys.readouterr()
+    assert cli.main(["tracker", "reply", "--team", "solo", "--from", "you", "rotated", "NPM_TOKEN", *out]) == 0
+    assert "**1/2 secrets rotated**" in capsys.readouterr().out

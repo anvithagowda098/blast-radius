@@ -85,3 +85,16 @@ def test_plan_markdown(plans):
     assert "1. [ ] **Contain: pause CI and isolate hosts that installed the bad version** (needs IC approval)" in md
     assert "`npm token delete <id>`" in md
     assert "CAN format" in md
+
+
+def test_solo_mode_is_one_personal_plan(forensics_report):
+    [plan] = rotation.build_plans(forensics_report, solo=True)
+    assert plan.team == "solo" and plan.owners == ["you"]
+    assert plan.repos == ["docs-site", "payments-api", "web-app"]
+    assert len(plan.credentials) == 7  # same credentials, one list
+    assert plan.steps[0].requires_ic_approval
+    assert "your own incident commander" in plan.steps[0].detail
+    md = rotation.plan_markdown(plan.to_dict())
+    assert md.startswith("**Your rotation checklist** · solo developer mode")
+    assert "(your call: decide before revoking)" in md
+    assert "@br-planner" not in md and "tracker reply --team solo --from you" in md

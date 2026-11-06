@@ -79,7 +79,7 @@ def cmd_forensics(args) -> int:
 
 def cmd_plan(args) -> int:
     report = _read_json(Path(args.out) / "forensics.json")
-    plans = [p.to_dict() for p in rotation.build_plans(report)]
+    plans = [p.to_dict() for p in rotation.build_plans(report, solo=args.solo)]
     incident = (report.get("advisory") or {}).get("id", "incident")
     _write_json(Path(args.out) / "plan.json", {"tool": "plan", "incident": incident, "plans": plans})
     chosen = [p for p in plans if not args.team or p["team"] == args.team]
@@ -324,6 +324,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = command("plan", cmd_plan, "Build the ordered rotation checklist per team; writes plan.json")
     p.add_argument("--team", help="print one team's checklist only")
+    p.add_argument("--solo", action="store_true",
+                   help="solo developer mode: one personal checklist for every repo (team \"solo\")")
     p.add_argument("--json", action="store_true")
 
     tracker_parser = sub.add_parser("tracker", help="Tracker state: init, approve, reply, set, show")
