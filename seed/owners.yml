@@ -11,5 +11,5 @@ owners:
   "@maya-web":           {chat: dumbkuff,       team: web}
   "@acme/web-team":      {chat: dumbkuff,       team: web}
   "@acme/docs":          {chat: dumbkuff,       team: web}
-  "@devon-pay":          {chat: pranjalpranjal, team: payments}
-  "@acme/payments-team": {chat: pranjalpranjal, team: payments}
+  "@devon-pay":          {chat: faizwa,         team: payments}
+  "@acme/payments-team": {chat: faizwa,         team: payments}
