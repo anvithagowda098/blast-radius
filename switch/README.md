@@ -38,3 +38,16 @@ These follow from the docs but haven't been run against a Switch server:
    simultaneous replies could race.
 7. **`auto_approve` stays false**, so Claude Code may ask before running
    `python -m blast_radius ...`. Approve those in Console.
+
+## Found on the first live run (Windows, Switch Console v0.40.1)
+
+- **A `provider` param shows an empty picker on Windows.** The template form
+  fills it from a check that marks every provider unavailable on Windows
+  ("SDK sessions require a POSIX SSH execution host"). Adding a single agent
+  from **Your Agents** uses a different check that does work. So each agent sets
+  `provider: claude` directly instead of asking.
+- **Console's built-in Claude Code install fails** in Windows PowerShell 5.1
+  (its command uses `&&`). Install with `irm https://claude.ai/install.ps1 | iex`
+  and add `%USERPROFILE%\.local\bin` to your user PATH, then restart Console.
+- **Quitting Console stops the local server.** Start it again from Home before
+  rechecking providers, or the agents controller can't report.

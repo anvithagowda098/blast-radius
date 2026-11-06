@@ -37,11 +37,6 @@ params:
     description: Prepares fix branches and diffs on the IC's request. Never pushes.
     default: false
     input: advanced
-  provider:
-    type: provider
-    description: The coding agent that runs every Blast Radius agent.
-    default: [claude]
-    input: advanced
   machine:
     type: machine
     description: The machine the agents run on.
@@ -56,7 +51,7 @@ resources:
     name: br-scout
     display_name: BR Scout
     description: Finds which repos installed the compromised package versions, from their lockfiles.
-    provider: "{provider}"
+    provider: claude  # fixed: a `provider` param shows an empty picker on Windows (Console v0.40.1)
     machine: "{machine}"
     directory: "{directory}"
     isolation: shared
@@ -70,7 +65,7 @@ resources:
     name: br-forensics
     display_name: BR Forensics
     description: Maps the CI secrets and OIDC each affected repo exposed, and who owns the repo.
-    provider: "{provider}"
+    provider: claude  # fixed: a `provider` param shows an empty picker on Windows (Console v0.40.1)
     machine: "{machine}"
     directory: "{directory}"
     isolation: shared
@@ -84,7 +79,7 @@ resources:
     name: br-commander
     display_name: BR Commander
     description: Deputy to the IC. Opens and links the team rooms, owns the tracker document, chases owners, drafts the postmortem.
-    provider: "{provider}"
+    provider: claude  # fixed: a `provider` param shows an empty picker on Windows (Console v0.40.1)
     machine: "{machine}"
     directory: "{directory}"
     isolation: shared
@@ -98,7 +93,7 @@ resources:
     name: br-planner
     display_name: BR Planner
     description: Posts each team's rotation checklist and turns owners' CAN replies into tracker updates.
-    provider: "{provider}"
+    provider: claude  # fixed: a `provider` param shows an empty picker on Windows (Console v0.40.1)
     machine: "{machine}"
     directory: "{directory}"
     isolation: shared
@@ -115,7 +110,7 @@ resources:
     name: br-patcher
     display_name: BR Patcher
     description: "Stretch: prepares a fix branch and diff on the IC's request. Never pushes."
-    provider: "{provider}"
+    provider: claude  # fixed: a `provider` param shows an empty picker on Windows (Console v0.40.1)
     machine: "{machine}"
     directory: "{directory}"
     isolation: shared
