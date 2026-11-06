@@ -151,6 +151,9 @@ resources:
     docs:
       - name: Runbook
         description: How a Blast Radius response runs in this room.
+        instructions: >-
+          Read-only reference for everyone in this room. Point people here when
+          they ask what happens next; don't edit it.
         content: |
           # Blast Radius runbook
 

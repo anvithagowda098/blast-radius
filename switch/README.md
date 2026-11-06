@@ -51,3 +51,7 @@ These follow from the docs but haven't been run against a Switch server:
   and add `%USERPROFILE%\.local\bin` to your user PATH, then restart Console.
 - **Quitting Console stops the local server.** Start it again from Home before
   rechecking providers, or the agents controller can't report.
+- **Room documents need `instructions`.** The server's `DocSpec` requires
+  name, description, instructions and content, and rejects the whole run
+  without them. `tests/test_template.py` now checks the fields the server's
+  models require.

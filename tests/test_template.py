@@ -133,3 +133,30 @@ def test_instruction_commands_parse():
             parser.parse_args(argv)  # raises SystemExit on an unknown command or option
             seen += 1
     assert seen >= 8
+
+
+# Required fields from the Switch server's own models (switch_core RoomSpec,
+# DocSpec, RoleSpec, as shipped in Switch Console v0.40.1). TEMPLATES.md lists
+# these fields but doesn't say which are required; the server rejects a room
+# that misses one, and then creates nothing.
+SERVER_REQUIRED = {
+    "room": {"name", "description"},
+    "docs": {"name", "description", "instructions", "content"},
+    "roles": {"name", "instructions"},
+}
+
+
+def test_rooms_have_every_field_the_server_requires(doc):
+    for key, room in _of_type(doc, "room").items():
+        assert SERVER_REQUIRED["room"] <= set(room), key
+        for d in room.get("docs", []):
+            assert SERVER_REQUIRED["docs"] <= set(d), f"{key} doc {d.get('name')}"
+        for r in room.get("roles", []):
+            assert SERVER_REQUIRED["roles"] <= set(r), f"{key} role {r.get('name')}"
+
+
+def test_agents_name_their_provider_directly(doc):
+    # A `provider` param renders an empty picker on Windows (Console v0.40.1).
+    assert not any(p.get("type") == "provider" for p in doc["params"].values())
+    for agent in _of_type(doc, "agent").values():
+        assert agent["provider"] == "claude"
