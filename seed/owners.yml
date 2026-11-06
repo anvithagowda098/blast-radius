@@ -4,7 +4,7 @@
 # second account of the security lead.
 security_lead:
   github: "@anvithagowda098"
-  chat: "@anvi"
+  chat: "@anvitha.098"
 
 owners:
   "@maya-web":           {chat: "@maya",  team: web}
