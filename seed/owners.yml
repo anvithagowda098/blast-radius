@@ -1,14 +1,15 @@
 # GitHub handles (as written in CODEOWNERS) -> chat handle + team.
-# Before a live run, change the chat handles to the accounts linked in your
-# Switch server. The two team owners are played by real people, never by a
-# second account of the security lead.
+# Chat handles are exact Discord usernames (the unique lowercase name, not the
+# display name), written without "@": Switch matches them exactly when
+# br-commander invites owners into their team rooms. The two team owners are
+# real people, never a second account of the security lead.
 security_lead:
   github: "@anvithagowda098"
-  chat: "@anvitha.098"
+  chat: "anvitha.098"
 
 owners:
-  "@maya-web":           {chat: "@maya",  team: web}
-  "@acme/web-team":      {chat: "@maya",  team: web}
-  "@acme/docs":          {chat: "@maya",  team: web}
-  "@devon-pay":          {chat: "@devon", team: payments}
-  "@acme/payments-team": {chat: "@devon", team: payments}
+  "@maya-web":           {chat: dumbkuff,       team: web}
+  "@acme/web-team":      {chat: dumbkuff,       team: web}
+  "@acme/docs":          {chat: dumbkuff,       team: web}
+  "@devon-pay":          {chat: pranjalpranjal, team: payments}
+  "@acme/payments-team": {chat: pranjalpranjal, team: payments}

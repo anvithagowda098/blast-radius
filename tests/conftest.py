@@ -21,7 +21,7 @@ def advisory():
 def owners():
     from blast_radius import forensics
 
-    return forensics.OwnerDirectory.load(SEED / "owners.yml")
+    return forensics.OwnerDirectory.load(FIXTURES / "owners.yml")
 
 
 @pytest.fixture

@@ -1,0 +1,12 @@
+# Test fixture: fixed placeholder handles so tests never depend on the live
+# chat handles in seed/owners.yml.
+security_lead:
+  github: "@anvithagowda098"
+  chat: "@anvitha.098"
+
+owners:
+  "@maya-web":           {chat: "@maya",  team: web}
+  "@acme/web-team":      {chat: "@maya",  team: web}
+  "@acme/docs":          {chat: "@maya",  team: web}
+  "@devon-pay":          {chat: "@devon", team: payments}
+  "@acme/payments-team": {chat: "@devon", team: payments}
