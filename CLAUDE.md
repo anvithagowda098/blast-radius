@@ -16,7 +16,7 @@ Read this whole file before doing anything. It is the single source of truth for
 |---|---|---|
 | **Track 01, Best Business Workflow ($2,000)** | **Blast Radius**, this repo | Main focus |
 | Track 02, Best Personal/Creative ($2,000) | **Build Log Room**, a separate small repo (section 10) | **Gated:** only after Blast Radius runs end to end |
-| Track 03, Core PRs | Already-open PRs to `sandbox-quantum/switch` | **No new PR work.** Only respond to review comments |
+| Track 03, Core PRs | Not entered | **Dropped (Nov 6):** no PRs or assigned issues exist, and there is no time to get assigned |
 | Code with Wispr ($500) | Same project, built by voice | Insights screenshot at submission |
 | Best Blog (AirPods), #HowISwitch | Tutorial blog + daily posts | Drafted from the Build Log Room |
 
