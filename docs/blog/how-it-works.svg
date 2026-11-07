@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 560" width="780" height="560" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>How Blast Radius works: six steps from an npm alert to a postmortem, split between you, AI agents and Switch rooms</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect width="780" height="560" fill="#ffffff"/>
+
+  <text x="390" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">How Blast Radius works</text>
+  <text x="390" y="60" text-anchor="middle" font-size="14" fill="#4b5563">Agents do the paperwork. People make the calls.</text>
+
+  <!-- legend -->
+  <g font-size="13" fill="#374151">
+    <rect x="186" y="78" width="14" height="14" rx="3" fill="#fff4e6" stroke="#e8590c" stroke-width="2"/>
+    <text x="206" y="90">You or a teammate</text>
+    <rect x="344" y="78" width="14" height="14" rx="3" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+    <text x="364" y="90">AI agent</text>
+    <rect x="450" y="78" width="14" height="14" rx="3" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+    <text x="470" y="90">Switch room or document</text>
+  </g>
+
+  <!-- row 1 -->
+  <g>
+    <rect x="30" y="116" width="220" height="170" rx="12" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+    <circle cx="58" cy="144" r="16" fill="#1971c2"/><text x="58" y="149" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">1</text>
+    <text x="84" y="150" font-size="16" font-weight="700" fill="#111827">An alert lands</text>
+    <g font-size="13.5" fill="#1f2937">
+      <text x="48" y="184">A popular npm package was</text>
+      <text x="48" y="203">hacked. The news is posted</text>
+      <text x="48" y="222">in the <tspan font-weight="700">#sec-alerts</tspan> room.</text>
+    </g>
+    <text x="48" y="266" font-size="12.5" fill="#1971c2">Switch room</text>
+  </g>
+
+  <g>
+    <rect x="280" y="116" width="220" height="170" rx="12" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+    <circle cx="308" cy="144" r="16" fill="#2f9e44"/><text x="308" y="149" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">2</text>
+    <text x="334" y="150" font-size="16" font-weight="700" fill="#111827">Agents investigate</text>
+    <g font-size="13.5" fill="#1f2937">
+      <text x="298" y="184"><tspan font-weight="700">Scout:</tspan> which of our projects</text>
+      <text x="298" y="203">installed the bad version?</text>
+      <text x="298" y="228"><tspan font-weight="700">Forensics:</tspan> which secrets</text>
+      <text x="298" y="247">could leak, and who owns them?</text>
+    </g>
+    <text x="298" y="270" font-size="12.5" fill="#2f9e44">2 AI agents</text>
+  </g>
+
+  <g>
+    <rect x="530" y="116" width="220" height="170" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="2"/>
+    <circle cx="558" cy="144" r="16" fill="#e8590c"/><text x="558" y="149" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">3</text>
+    <text x="584" y="150" font-size="16" font-weight="700" fill="#111827">You decide</text>
+    <g font-size="13.5" fill="#1f2937">
+      <text x="548" y="184">The security lead reads the</text>
+      <text x="548" y="203">findings and types <tspan font-weight="700">approve</tspan>.</text>
+      <text x="548" y="228">Agents can't approve for you.</text>
+    </g>
+    <text x="548" y="266" font-size="12.5" fill="#e8590c">You (a person)</text>
+  </g>
+
+  <!-- row 2 -->
+  <g>
+    <rect x="530" y="346" width="220" height="170" rx="12" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+    <circle cx="558" cy="374" r="16" fill="#2f9e44"/><text x="558" y="379" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">4</text>
+    <text x="584" y="380" font-size="16" font-weight="700" fill="#111827">Team rooms open</text>
+    <g font-size="13.5" fill="#1f2937">
+      <text x="548" y="414"><tspan font-weight="700">Commander</tspan> opens one room</text>
+      <text x="548" y="433">per team, links it back to</text>
+      <text x="548" y="452">#sec-alerts and invites</text>
+      <text x="548" y="471">the team's owner.</text>
+    </g>
+    <text x="548" y="500" font-size="12.5" fill="#2f9e44">AI agent + new Switch rooms</text>
+  </g>
+
+  <g>
+    <rect x="280" y="346" width="220" height="170" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="2"/>
+    <circle cx="308" cy="374" r="16" fill="#e8590c"/><text x="308" y="379" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">5</text>
+    <text x="334" y="380" font-size="16" font-weight="700" fill="#111827">Owners fix it</text>
+    <g font-size="13.5" fill="#1f2937">
+      <text x="298" y="414"><tspan font-weight="700">Planner</tspan> posts a checklist.</text>
+      <text x="298" y="433">Owners change the leaked</text>
+      <text x="298" y="452">keys and reply, e.g.</text>
+      <text x="298" y="471" font-family="Consolas, Menlo, monospace" font-size="12.5">"rotated NPM_TOKEN"</text>
+    </g>
+    <text x="298" y="500" font-size="12.5" fill="#e8590c">Teammates + an AI agent</text>
+  </g>
+
+  <g>
+    <rect x="30" y="346" width="220" height="170" rx="12" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+    <circle cx="58" cy="374" r="16" fill="#1971c2"/><text x="58" y="379" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">6</text>
+    <text x="84" y="380" font-size="16" font-weight="700" fill="#111827">Track and learn</text>
+    <g font-size="13.5" fill="#1f2937">
+      <text x="48" y="414">A live tracker shows</text>
+      <text x="48" y="433"><tspan font-weight="700">"4/7 secrets rotated"</tspan>.</text>
+      <text x="48" y="458">At the end, a blameless</text>
+      <text x="48" y="477">postmortem is drafted.</text>
+    </g>
+    <text x="48" y="500" font-size="12.5" fill="#1971c2">Switch documents</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#6b7280" stroke-width="2.5" fill="none">
+    <line x1="252" y1="201" x2="276" y2="201" marker-end="url(#arrow)"/>
+    <line x1="502" y1="201" x2="526" y2="201" marker-end="url(#arrow)"/>
+    <line x1="640" y1="288" x2="640" y2="342" marker-end="url(#arrow)"/>
+    <line x1="528" y1="431" x2="504" y2="431" marker-end="url(#arrow)"/>
+    <line x1="278" y1="431" x2="254" y2="431" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="390" y="544" text-anchor="middle" font-size="12.5" fill="#6b7280">The agents run small, tested Python commands for every fact. They never guess what was exposed.</text>
+</svg>
