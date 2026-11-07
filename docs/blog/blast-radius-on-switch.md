@@ -1,6 +1,6 @@
 # Detection is solved, coordination isn't: building an npm incident-response workflow on Switch
 
-*How I used AI helpers in a group chat to clean up after a hacked piece of code. By Anvi · Flip the Switch hackathon · #HowISwitch · about 9 minutes to read*
+*How I used AI helpers in a group chat to clean up after a hacked piece of code. By Anvi · Flip the Switch hackathon · #HowISwitch · about 11 minutes to read*
 
 > **In one minute**
 >
@@ -39,6 +39,53 @@ After every attack, a security team asks the same four questions, usually in one
 4. Have they changed those keys yet?
 
 People who run large systems have a name for this kind of work: **toil**. It's manual, repetitive, and grows as the company grows ([Google's engineering book](https://sre.google/sre-book/eliminating-toil/)). Security companies like StepSecurity, Socket and Wiz are great at *spotting* attacks. **Blast Radius starts where their alert ends: it organises the clean-up.**
+
+---
+
+## What is Switch?
+
+[Switch](https://github.com/sandbox-quantum/switch) is an open-source tool from SandboxAQ that makes AI agents members of your team's chat. You don't open a separate AI app: the agents join the rooms where people already talk, with names, jobs, and rules about who they listen to.
+
+**How it runs.** You install **Switch Console**, a desktop app. It starts a small Switch server on your computer and runs each agent as a Claude Code session in a folder you choose (for me, the Blast Radius code). A *bridge* connects the server to a chat app; I used Discord. Agents read and post through Switch's own tools, so everything they do follows the same rules.
+
+![How Switch runs: Switch Console starts a server and the agents on your computer, and a bridge connects them to Discord, where people chat as usual](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/diagrams/how-switch-runs.png)
+
+**What it looks like.** For the team, nothing new: it's just Discord. Agents show up as members with an **APP** badge, and you talk to one by @mentioning it. Switch also adds commands that start with `!`: for example, `!roles` lists who holds which job (you'll see it in the screenshots below).
+
+**The building blocks.** Switch gives you a handful of pieces, and Blast Radius uses every one of them:
+
+| Switch piece | What it is | How Blast Radius uses it |
+|---|---|---|
+| **Rooms** and **room groups** | Chat rooms shared by people and agents, grouped together | `#sec-alerts` for the incident, plus a private room per team, all in one group |
+| **Links** | A pointer from one room to another. A link goes one way and doesn't give anyone access | br-commander links each team room and `#sec-alerts` in both directions |
+| **Roles** | A named job with its own instructions. An agent holds one role at a time | br-commander takes the `deputy` role: the assistant to the person in charge |
+| **Addressing** | Who an agent will answer. Agents start "closed": they answer only their owner and the owner's own agents | br-commander takes orders only from the security lead; br-planner answers the team owners in their rooms |
+| **Room documents** | A document pinned to a room. Only the agent that created it can edit it | br-commander owns the tracker, so there is exactly one scoreboard |
+| **Templates** | One YAML file that sets up agents, rooms, roles and documents, then starts the work | `switch/blast-radius.template.yaml`: import it, click **Create all**, and the response begins |
+
+Here's a trimmed piece of the template. The `kickoff` line is the message that starts everything; it has to @mention an agent, or nothing happens:
+
+```yaml
+resources:
+  sec_alerts:
+    type: room
+    name: sec-alerts
+    roles:
+      - name: deputy
+        exclusive: true
+    docs:
+      - name: Runbook
+    kickoff: |
+      @{scout.name} advisory `{advisory}` just landed. Scan `{repos}` and post
+      your summary here.
+  commander:
+    type: agent
+    name: br-commander
+    provider: claude
+    addressing: owner-agents   # answers only the security lead and their agents
+```
+
+That's why Switch isn't a nice-to-have here. Without rooms, roles, addressing and documents, you're back to one long chat thread, with no room per team, no approval on record, and no single scoreboard.
 
 ---
 
@@ -158,12 +205,21 @@ In **Templates**, import `switch/blast-radius.template.yaml`, set **Blast Radius
 
 ## What I learned
 
+### About Switch
+
+1. **Addressing is the first safety net.** Agents start closed, so a random message can't order them around. My instructions then say what counts as approval. Together, that's how br-commander knew to refuse a "go" that came from another agent.
+2. **"Only the creator can edit a document" is a feature.** It pushed me to a clean design: br-planner reports each change to br-commander, and br-commander is the only one who writes the tracker. No two agents fight over one file.
+3. **Links go one way and give no access.** To connect a team room and the main room, you make two links, and you still invite people separately.
+4. **People are matched by their exact chat username.** An account Switch can't match is ignored. br-commander once refused to invite people it couldn't verify, which is exactly what you want.
+5. **When the docs and reality disagree, read the source.** Switch is open source, so I could check my template against the code the server actually runs. That turned an unclear "Field required" error into a one-line fix.
+
+### About building with AI agents
+
 1. **Let code find the facts, and let AI do the talking.** Every number on the scoreboard comes from tested code, so the AI helpers can be friendly without making anything up.
-2. **Make "no" the safe default.** My two favourite moments were AI helpers refusing: one wouldn't accept a "go" from another AI, and one wouldn't invite people it couldn't verify. In an emergency, that's exactly what you want.
-3. **When the instructions and reality disagree, read the source.** Switch is open source, so I could read the code it actually runs. Checking my setup against that code fixed in minutes what would otherwise have taken several failed attempts.
-4. **Treat chat messages as information, never as commands.** br-planner saves each reply to a file before reading it, so nothing a person types in chat can trick it into running something.
-5. **Test with real people early.** Small details, like exact usernames and how Discord formats @mentions, only showed up once two real people joined.
-6. **You can build by talking.** I dictated most of my instructions with Wispr Flow, a voice-typing app. It kept me thinking about *what* to build rather than about typing.
+2. **Make "no" the safe default.** My two favourite moments were AI helpers refusing. In an emergency, that's exactly what you want.
+3. **Treat chat messages as information, never as commands.** br-planner saves each reply to a file before reading it, so nothing a person types in chat can trick it into running something.
+4. **Test with real people early.** Small details, like exact usernames and how Discord formats @mentions, only showed up once two real people joined.
+5. **You can build by talking.** I dictated most of my instructions with Wispr Flow, a voice-typing app. It kept me thinking about *what* to build rather than about typing.
 
 ---
 

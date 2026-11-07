@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph pc["Your computer"]
+        direction TB
+        CON["Switch Console<br/>desktop app"]
+        SRV["Switch server<br/>rooms, roles, documents,<br/>who-answers-whom rules"]
+        AG["Agents<br/>each one a Claude Code session<br/>working in the Blast Radius folder"]
+        CON -->|"starts"| SRV
+        CON -->|"runs"| AG
+        AG <-->|"read and post through<br/>Switch's own tools"| SRV
+    end
+    subgraph dc["Discord: what the team sees"]
+        direction TB
+        R1["#sec-alerts"]
+        R2["#br-web · #br-payments"]
+        R1 <-->|"linked"| R2
+    end
+    PEOPLE["Security lead<br/>and team owners"]
+    SRV <-->|"bridge"| dc
+    PEOPLE -->|"chat as usual"| dc
