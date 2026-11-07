@@ -120,7 +120,7 @@ The gap between 19:16 and 19:43 wasn't Blast Radius being slow. That was me gett
 - A **Discord** account
 - **Switch Console**, free from [Switch's GitHub releases](https://github.com/sandbox-quantum/switch/releases)
 
-### 1. See it work without Switch
+### 1. See it work 
 
 ```bash
 git clone https://github.com/anvithagowda098/blast-radius
@@ -186,7 +186,6 @@ In **Templates**, import `switch/blast-radius.template.yaml`, set **Blast Radius
 ## Try it
 
 - **Code:** [github.com/anvithagowda098/blast-radius](https://github.com/anvithagowda098/blast-radius)
-- **Without Switch:** `python -m blast_radius demo`
 - **Just you, no team?** The README's *Solo developer mode* runs the same checks on your own projects and laptop.
 
 Thanks to the Switch team, WeMakeDevs and DevTools Academy for the hackathon, and to my two friends for playing the team owners.
@@ -206,6 +205,3 @@ Thanks to the Switch team, WeMakeDevs and DevTools Academy for the hackathon, an
 - [Switch on GitHub](https://github.com/sandbox-quantum/switch)
 - Diagrams are [Mermaid](https://mermaid.js.org/); their sources are in [`docs/diagrams/`](https://github.com/anvithagowda098/blast-radius/tree/main/docs/diagrams)
 
-<!-- Before publishing:
-     - add the Wispr Flow Insights screenshot under "What I learned", point 6
-     - cover image suggestion: docs/diagrams/how-it-works.png -->

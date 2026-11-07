@@ -4,8 +4,6 @@
 
 <!-- TODO: 30-second demo GIF at docs/demo.gif -->
 
-Built for the Flip the Switch Hackathon (WeMakeDevs × DevTools Academy × Switch by SandboxAQ), Track 01: Best Business Workflow.
-
 ## The problem: detection is solved, coordination isn't
 
 On 11 May 2026, an attacker published 84 malicious versions of 42 TanStack packages. A StepSecurity researcher reported it 26 minutes after the first one went out, but npm removed the last malicious tarball about 4.5 hours in ([TanStack's postmortem](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)). At Trigger.dev, an attacker had access to an engineer's GitHub account for 17 hours before doing anything visible ([Trigger.dev's postmortem](https://trigger.dev/blog/shai-hulud-postmortem)).
@@ -134,20 +132,6 @@ python -m blast_radius tracker show --out out/solo
 - **`hostcheck`** reads only `~/.claude/settings.json` and lists its `SessionStart` hooks, flagging any that look like the worm's persistence.
 - **`tracker approve`** records your own containment decision; **`tracker reply`** takes the same plain-English or CAN-format updates the team owners use.
 
-## Demo script
-
-| # | Who | Where | Types |
-|---|---|---|---|
-| 1 | (template kickoff) | `#sec-alerts` | `@br-scout advisory … just landed. Scan … and post your summary here.` |
-| 2 | br-scout → br-forensics | `#sec-alerts` | (automatic) 3 affected repos, 1 clean, then exposure per repo and owner |
-| 3 | IC | `#sec-alerts` | `@br-commander approve` |
-| 4 | br-commander | new `br-web`, `br-payments` | opens, links and invites, creates the tracker document; br-planner posts each checklist |
-| 5 | web owner | `br-web` | `@br-planner C: release and preview workflows disabled, runner paused · A: rotated NPM_TOKEN and RELEASE_GH_PAT · N: none` |
-| 6 | payments owner | `br-payments` | `@br-planner Condition: deploys paused` / `Actions: rotated the AWS access key` / `Needs: Vault admin to revoke VAULT_TOKEN` |
-| 7 | IC | `#sec-alerts` | `@br-commander chase`, then `!list-documents` to show the tracker |
-| 8 | web owner | `br-web` | `@br-planner rotated the vercel token` |
-| 9 | IC | `#sec-alerts` | `@br-commander draft the postmortem`, then `!roles` to show who holds `deputy` |
-
 ## Positioning and honest limits
 
 StepSecurity, Socket and Wiz **detect**. Blast Radius **coordinates** what happens after: owner-level remediation inside the team's own chat, with approvals on record.
@@ -162,8 +146,6 @@ StepSecurity, Socket and Wiz **detect**. Blast Radius **coordinates** what happe
 ## Built by voice
 
 Built with Wispr Flow dictation for the Code with Wispr track.
-
-<!-- TODO: Wispr Flow Insights screenshot -->
 
 ## References
 
