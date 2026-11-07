@@ -74,10 +74,23 @@ This is what happened when I ran it live, with two friends as the team owners. T
 1. **19:07, alert.** Switch posts the kickoff in `#sec-alerts`, mentioning br-scout.
 2. **Within a minute, investigation.** br-scout reports: *"Scanned 4 repos: 3 affected, 1 clean."* It hands off to br-forensics, which lists the exposed secrets and flags one risky workflow that runs outside code with secrets.
 3. **19:08, the agent says no.** br-forensics' message also pinged br-commander. It **refused to act**: *"the only approval prompt so far came from an agent, not you."* An agent can't approve for another agent.
+
+   ![br-commander refuses to act on an agent's approval, then I approve](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/blog/screenshots/1-refused-approval.png)
+
 4. **19:15, I approve.** I type `@br-commander approve`. Within a minute it opens `#br-web` and `#br-payments`, links each back to `#sec-alerts`, creates the tracker document, and br-planner posts both checklists.
+
+   ![br-commander takes the deputy role, creates the tracker and opens two linked team rooms](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/blog/screenshots/2-rooms-opened.png)
+
+   Switch's built-in `!roles` command confirms who holds the deputy role:
+
+   ![Switch's !roles reply: deputy (exclusive), held by BR Commander](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/blog/screenshots/4-roles.png)
+
 5. **Owners fix things.** My friends reply in their rooms in plain words:
    *"C: deploys paused · A: rotated the AWS access key · N: Vault admin to revoke VAULT_TOKEN"*
    The tracker updates each time: **2/7 → 3/7 → 4/7 secrets rotated**, with one item blocked waiting for help.
+
+   ![br-planner turns a team owner's reply into a tracker update: 3/7 secrets rotated, 1 blocked](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/blog/screenshots/3-tracker-update.png)
+
 6. **19:57, wrap-up.** `chase` reminds the payments owner what's next. A blameless postmortem appears as a document, ready for my sign-off.
 
 (The gap between 19:16 and the first reply was me getting my friends into the Discord server. More on that below.)
