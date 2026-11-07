@@ -1,6 +1,6 @@
 # Detection is solved, coordination isn't: building an npm incident-response workflow on Switch
 
-*How I used AI helpers in a group chat to clean up after a hacked piece of code. By Anvi · Flip the Switch hackathon · #HowISwitch · about 11 minutes to read*
+*How I used AI helpers in a group chat to clean up after a hacked piece of code. By Anvitha · Flip the Switch hackathon · #HowISwitch · about 11 minutes to read*
 
 > **In one minute**
 >
