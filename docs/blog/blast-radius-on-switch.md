@@ -4,7 +4,7 @@
 
 > **In one minute**
 >
-> - When a popular npm package gets hacked, finding out is fast. Cleaning up is slow, because someone has to chase every team.
+> - Popular npm packages now get hacked roughly every two months. Finding out is fast. Cleaning up is slow, because someone has to chase every team.
 > - I built **Blast Radius**: AI agents in Switch chat rooms work out what's affected, open a room for each team, and keep score while people fix things.
 > - **Agents do the paperwork. People make the calls.**
 > - It ran for real, with two friends playing team owners, in a Discord server connected to Switch.
@@ -34,6 +34,8 @@ A hacked npm package is the same. Its code may have run on every computer and CI
 Here's a real example. On 11 May 2026, an attacker published 84 malicious versions of 42 TanStack packages. A StepSecurity researcher spotted it and reported it 26 minutes after the first one went out. But npm only removed the last bad copy about 4.5 hours in ([TanStack's postmortem](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)). Every hour in between is time when the bad code could still be installed, and secrets could leak.
 
 And damage can stay quiet. At Trigger.dev, an attacker had access to an engineer's GitHub account for 17 hours before doing anything visible ([Trigger.dev's postmortem](https://trigger.dev/blog/shai-hulud-postmortem)).
+
+**And it keeps happening.** Since September 2025 there has been a major hijack of popular npm packages roughly every two months: [chalk and debug](https://blog.checkpoint.com/crypto/the-great-npm-heist-september-2025/), the [Shai-Hulud worm](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem) (500+ packages, enough for a US government alert), its [second wave](https://posthog.com/blog/nov-24-shai-hulud-attack-post-mortem), then TanStack. Engineers who run production systems have a word for the work each one creates: **toil**, meaning work that's manual, repetitive and grows with the size of your company ([Google SRE](https://sre.google/sre-book/eliminating-toil/)).
 
 After the alert, a security team has to answer, usually in one long chat thread:
 
@@ -188,6 +190,10 @@ Thanks to the Switch team, WeMakeDevs and DevTools Academy for the hackathon, an
 - [TanStack: Postmortem, npm supply-chain compromise](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)
 - [GitHub advisory GHSA-g7cv-rxg3-hmpx](https://github.com/advisories/GHSA-g7cv-rxg3-hmpx)
 - [Trigger.dev: How we got hit by Shai-Hulud, a complete post-mortem](https://trigger.dev/blog/shai-hulud-postmortem)
+- [Check Point: The great npm heist (September 2025)](https://blog.checkpoint.com/crypto/the-great-npm-heist-september-2025/)
+- [CISA: Widespread supply chain compromise impacting npm ecosystem](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem)
+- [PostHog: Post-mortem of Shai-Hulud attack on November 24th, 2025](https://posthog.com/blog/nov-24-shai-hulud-attack-post-mortem)
+- [Google SRE book: Eliminating toil](https://sre.google/sre-book/eliminating-toil/)
 - [Switch on GitHub](https://github.com/sandbox-quantum/switch)
 - Diagrams are [Mermaid](https://mermaid.js.org/); their sources are in [`docs/diagrams/`](https://github.com/anvithagowda098/blast-radius/tree/main/docs/diagrams)
 

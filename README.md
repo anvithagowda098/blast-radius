@@ -1,6 +1,6 @@
 # Blast Radius
 
-**When an npm worm hits, detection takes minutes and the response takes hours of chasing people. Blast Radius turns that response into Switch rooms: agents do the paperwork, humans make the calls.**
+**When a popular npm package is hijacked, detection takes minutes and the response takes hours of chasing people. Blast Radius turns that response into Switch rooms: agents do the toil, people make the calls.**
 
 <!-- TODO: 30-second demo GIF at docs/demo.gif -->
 
@@ -18,6 +18,24 @@ StepSecurity, Socket and Wiz tell you a package is bad. Then the real work start
 - Did anyone revoke a key before containment, so the new one leaked too?
 
 Blast Radius starts where the alert ends.
+
+### This keeps happening
+
+Hijacks of popular, trusted npm packages now come roughly every two months:
+
+| When | Incident | Source |
+|---|---|---|
+| 8 Sep 2025 | chalk, debug and other packages with billions of weekly downloads, via one phished maintainer | [Check Point](https://blog.checkpoint.com/crypto/the-great-npm-heist-september-2025/) |
+| Sep 2025 | Shai-Hulud, the first self-spreading npm worm: 500+ packages | [CISA alert](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem) |
+| Nov 2025 | Shai-Hulud 2.0: PostHog, Zapier, Postman and others | [PostHog](https://posthog.com/blog/nov-24-shai-hulud-attack-post-mortem), [Wiz](https://www.wiz.io/blog/shai-hulud-2-0-aftermath-ongoing-supply-chain-attack) |
+| 11 May 2026 | TanStack: 84 malicious versions of 42 packages | [TanStack](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem) |
+
+Each one means the same response, for every team and every secret. In SRE terms that's **toil**: work that is *"manual, repetitive, automatable, tactical, devoid of enduring value, and that scales linearly"* ([Google SRE](https://sre.google/sre-book/eliminating-toil/)). Blast Radius applies standard incident practice to it:
+
+- **Incident roles:** the security lead is the Incident Commander; br-commander is the Deputy and Scribe ([PagerDuty roles](https://response.pagerduty.com/before/different_roles/)).
+- **A runbook as a workflow:** the same ordered checklist for every team, every incident, with containment first.
+- **A blameless postmortem**, drafted from the record ([Google SRE](https://sre.google/sre-book/postmortem-culture/)).
+- **Any advisory:** it reads Blast Radius or OSV-style JSON, a Wiz-style CSV, or a pasted table, so the next incident only needs a new advisory file.
 
 ## How Switch is used
 
