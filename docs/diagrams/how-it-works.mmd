@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph row1[" "]
+        direction LR
+        A["<b>1. An alert lands</b><br/>a hacked npm package<br/>is posted in sec-alerts"]
+        B["<b>2. Agents investigate</b><br/>br-scout: who installed it?<br/>br-forensics: which secrets<br/>could leak, and whose?"]
+        C{"<b>3. You decide</b><br/>approve?"}
+        A --> B --> C
+    end
+    subgraph row2[" "]
+        direction LR
+        D["<b>4. Team rooms open</b><br/>br-commander opens<br/>one room per team"]
+        E["<b>5. Owners fix it</b><br/>br-planner: a checklist<br/>owners reply in plain words"]
+        F["<b>6. Track and learn</b><br/>tracker: 4/7 rotated,<br/>then a postmortem"]
+        D --> E --> F
+    end
+    row1 -- "you approve" --> row2
+    style row1 fill:none,stroke:none
+    style row2 fill:none,stroke:none

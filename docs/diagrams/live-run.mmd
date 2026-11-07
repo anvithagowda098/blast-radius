@@ -1,0 +1,19 @@
+%%{init: {'sequence': {'actorMargin': 30, 'width': 130, 'boxMargin': 8, 'messageMargin': 34, 'noteMargin': 10}}}%%
+sequenceDiagram
+    participant Y as You (IC)
+    participant S as br-scout
+    participant F as br-forensics
+    participant C as br-commander
+    participant P as br-planner
+    participant O as Team owner
+    Note over Y,O: 19:07 the template's kickoff starts br-scout in sec-alerts
+    S->>F: 3 of 4 repos affected
+    F->>Y: 8 exposed secrets. Approve?
+    C-->>Y: That ping came from an agent. Waiting for you.
+    Y->>C: approve (19:15)
+    Note over C: opens 2 linked team rooms and the tracker
+    C->>P: post the checklists
+    P->>O: ordered checklist
+    O->>P: rotated the AWS access key
+    P->>C: tracker: 3/7 rotated, 1 blocked
+    Y->>C: draft the postmortem (19:57)

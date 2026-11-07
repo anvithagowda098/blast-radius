@@ -3,10 +3,22 @@
   "title": "TanStack Router npm packages compromised",
   "published": "2026-05-11",
   "ecosystem": "npm",
-  "note": "Versions and IOCs as listed in TanStack's postmortem and StepSecurity's table. Re-check upstream before relying on this file.",
+  "note": "Versions and IOCs from TanStack's postmortem and GitHub advisory GHSA-g7cv-rxg3-hmpx. The real incident hit 42 packages (84 versions); this demo lists 2 of them.",
   "affected": [
-    {"name": "@tanstack/react-router", "versions": ["1.169.5", "1.169.8"]},
-    {"name": "@tanstack/history", "versions": ["1.161.9", "1.161.12"]}
+    {
+      "name": "@tanstack/react-router",
+      "versions": [
+        "1.169.5",
+        "1.169.8"
+      ]
+    },
+    {
+      "name": "@tanstack/history",
+      "versions": [
+        "1.161.9",
+        "1.161.12"
+      ]
+    }
   ],
   "iocs": {
     "dependencies": [
@@ -16,7 +28,9 @@
         "spec": "github:tanstack/router#79ac49eedf774dd4b0cfa308722bc463cfe5885c"
       }
     ],
-    "files": ["router_init.js"],
+    "files": [
+      "router_init.js"
+    ],
     "domains": [
       "filev2.getsession.org",
       "seed1.getsession.org",
@@ -26,7 +40,18 @@
   },
   "guidance": {
     "text": "Anyone who installed an affected version must rotate AWS, GCP, Kubernetes, Vault, GitHub, npm and SSH credentials reachable from that host.",
-    "rotate": ["AWS", "GCP", "Kubernetes", "Vault", "GitHub", "npm", "SSH"]
+    "rotate": [
+      "AWS",
+      "GCP",
+      "Kubernetes",
+      "Vault",
+      "GitHub",
+      "npm",
+      "SSH"
+    ]
   },
-  "references": ["TanStack postmortem", "StepSecurity advisory table"]
+  "references": [
+    "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+    "https://github.com/advisories/GHSA-g7cv-rxg3-hmpx"
+  ]
 }

@@ -8,7 +8,7 @@ Built for the Flip the Switch Hackathon (WeMakeDevs × DevTools Academy × Switc
 
 ## The problem: detection is solved, coordination isn't
 
-In the May 2026 TanStack compromise, the bad versions were detected in about 26 minutes, but the last malicious tarball was pulled about 4.5 hours in (TanStack's postmortem). At Trigger.dev, an attacker was inside for 17 hours (Trigger.dev's postmortem).
+On 11 May 2026, an attacker published 84 malicious versions of 42 TanStack packages. A StepSecurity researcher reported it 26 minutes after the first one went out, but npm removed the last malicious tarball about 4.5 hours in ([TanStack's postmortem](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)). At Trigger.dev, an attacker had access to an engineer's GitHub account for 17 hours before doing anything visible ([Trigger.dev's postmortem](https://trigger.dev/blog/shai-hulud-postmortem)).
 
 StepSecurity, Socket and Wiz tell you a package is bad. Then the real work starts, usually in a Slack thread:
 
@@ -21,7 +21,30 @@ Blast Radius starts where the alert ends.
 
 ## How Switch is used
 
-![Architecture: humans, Switch rooms, agents, deterministic core](docs/architecture.svg)
+```mermaid
+flowchart TB
+    subgraph people["People make the calls"]
+        direction LR
+        IC["Security lead<br/>approves the response"]
+        OW["Team owners<br/>fix and report back"]
+    end
+    subgraph sw["Switch"]
+        direction LR
+        SA["sec-alerts room<br/>role: deputy<br/>docs: tracker, postmortem"]
+        TR["one room per team<br/>br-web, br-payments"]
+        SA <-->|"linked both ways"| TR
+    end
+    subgraph ag["Agents (Claude Code)"]
+        direction LR
+        SC["br-scout"] ~~~ FO["br-forensics"] ~~~ CO["br-commander"] ~~~ PL["br-planner"]
+    end
+    CORE[["python -m blast_radius<br/>deterministic, offline, tested"]]
+    people -->|"chat in the rooms"| sw
+    sw <-->|"@mentions and replies"| ag
+    ag -->|"run commands for every fact"| CORE
+```
+
+*Diagram source: [`docs/diagrams/architecture.mmd`](docs/diagrams/architecture.mmd).*
 
 | Switch feature | How Blast Radius uses it |
 |---|---|
@@ -115,7 +138,7 @@ StepSecurity, Socket and Wiz **detect**. Blast Radius **coordinates** what happe
 - **Lockfiles only.** It sees what the lockfiles say was installed, not what is on a laptop right now. Owners run `python -m blast_radius hostcheck` for the `SessionStart`-hook persistence check.
 - **Exact matches.** It matches exact name and version from the advisory (plus the IOC dependency). Version ranges and OSV online lookup aren't implemented.
 - **CAN parsing is word-based.** Anything it can't match comes back as a warning, never a silent guess.
-- **Seed data is fictional.** The advisory's versions and IOCs come from public reports; the four repos are made up. See [`seed/README.md`](seed/README.md).
+- **Seed data is fictional.** The four repos are made up. The advisory's versions and IOCs come from the real [GitHub advisory](https://github.com/advisories/GHSA-g7cv-rxg3-hmpx) and [TanStack's postmortem](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem); it lists 2 of the 42 affected packages. See [`seed/README.md`](seed/README.md).
 - **Not yet run end to end on a live Switch server.** See [`switch/README.md`](switch/README.md).
 
 ## Built by voice
@@ -126,13 +149,11 @@ Built with Wispr Flow dictation for the Code with Wispr track.
 
 ## References
 
-<!-- TODO: add links -->
-
-- TanStack: postmortem of the May 11, 2026 npm compromise
-- Trigger.dev: incident postmortem
-- PostHog: incident postmortem
-- Wiz: Shai-Hulud 2.0 analysis
-- StepSecurity: affected-versions table for the TanStack compromise
-- PagerDuty: incident response roles (Incident Commander, Deputy, Scribe, Liaison)
-- Google SRE: postmortem culture
-- NIST SP 800-61r3: incident response recommendations
+- [TanStack: Postmortem, npm supply-chain compromise (11 May 2026)](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)
+- [GitHub advisory GHSA-g7cv-rxg3-hmpx: the 42 affected packages and versions](https://github.com/advisories/GHSA-g7cv-rxg3-hmpx)
+- [Trigger.dev: How we got hit by Shai-Hulud, a complete post-mortem](https://trigger.dev/blog/shai-hulud-postmortem)
+- [PostHog: Post-mortem of Shai-Hulud attack on November 24th, 2025](https://posthog.com/blog/nov-24-shai-hulud-attack-post-mortem)
+- [Wiz: Shai-Hulud 2.0 aftermath: trends, victimology and impact](https://www.wiz.io/blog/shai-hulud-2-0-aftermath-ongoing-supply-chain-attack)
+- [PagerDuty incident response: different roles (Incident Commander, Deputy, Scribe, Liaison)](https://response.pagerduty.com/before/different_roles/)
+- [Google SRE book: Postmortem culture](https://sre.google/sre-book/postmortem-culture/)
+- [NIST SP 800-61 Rev. 3: Incident response recommendations (April 2025)](https://csrc.nist.gov/pubs/sp/800/61/r3/final)

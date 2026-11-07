@@ -29,7 +29,11 @@
 
 Imagine a locksmith secretly copied your office keys. Knowing *that* it happened is step one. The hard part is working out which doors those keys open, telling every person who holds one, and checking that every lock has actually been changed.
 
-A hacked npm package is the same. Its code may have run on every computer and CI job that installed it, and could have read the secrets there. In the May 2026 TanStack compromise, the bad versions were spotted in about 26 minutes. But the last bad copy was only pulled about 4.5 hours in.
+A hacked npm package is the same. Its code may have run on every computer and CI job that installed it, and could have read the secrets there.
+
+Here's a real example. On 11 May 2026, an attacker published 84 malicious versions of 42 TanStack packages. A StepSecurity researcher spotted it and reported it 26 minutes after the first one went out. But npm only removed the last bad copy about 4.5 hours in ([TanStack's postmortem](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)). Every hour in between is time when the bad code could still be installed, and secrets could leak.
+
+And damage can stay quiet. At Trigger.dev, an attacker had access to an engineer's GitHub account for 17 hours before doing anything visible ([Trigger.dev's postmortem](https://trigger.dev/blog/shai-hulud-postmortem)).
 
 After the alert, a security team has to answer, usually in one long chat thread:
 
@@ -44,7 +48,7 @@ Tools from companies like StepSecurity, Socket and Wiz handle the *detection*. *
 
 ## What I built
 
-![How Blast Radius works: six steps from an alert to a postmortem](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/blog/how-it-works.svg)
+![How Blast Radius works: six steps from an alert to a postmortem](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/diagrams/how-it-works.png)
 
 Blast Radius is a small team of AI agents living in Switch rooms, plus the people who make decisions:
 
@@ -64,6 +68,8 @@ Blast Radius is a small team of AI agents living in Switch rooms, plus the peopl
 ## How a response plays out (a real run)
 
 This is what happened when I ran it live, with two friends as the team owners. Times are from the tracker's own log.
+
+![The live run as a sequence: who talked to whom, in order](https://raw.githubusercontent.com/anvithagowda098/blast-radius/main/docs/diagrams/live-run.png)
 
 1. **19:07, alert.** Switch posts the kickoff in `#sec-alerts`, mentioning br-scout.
 2. **Within a minute, investigation.** br-scout reports: *"Scanned 4 repos: 3 affected, 1 clean."* It hands off to br-forensics, which lists the exposed secrets and flags one risky workflow that runs outside code with secrets.
@@ -152,7 +158,7 @@ Put your teammates' **exact Discord usernames** in `seed/owners.yml`, and invite
 
 - It reports **exposure** (what a job *could* reach), not proof that anything was stolen.
 - It scans projects on your computer, not a whole GitHub organization (yet).
-- The four example projects are made up. The hacked package versions come from public reports of the real TanStack incident.
+- The four example projects are made up. The hacked versions come from the real [GitHub advisory](https://github.com/advisories/GHSA-g7cv-rxg3-hmpx); my demo uses 2 of its 42 affected packages.
 
 ---
 
@@ -164,8 +170,13 @@ Put your teammates' **exact Discord usernames** in `seed/owners.yml`, and invite
 
 Thanks to the Switch team, WeMakeDevs and DevTools Academy for the hackathon, and to my two friends for playing team owners on short notice.
 
+## Sources
+
+- [TanStack: Postmortem, npm supply-chain compromise](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)
+- [GitHub advisory GHSA-g7cv-rxg3-hmpx](https://github.com/advisories/GHSA-g7cv-rxg3-hmpx)
+- [Trigger.dev: How we got hit by Shai-Hulud, a complete post-mortem](https://trigger.dev/blog/shai-hulud-postmortem)
+- [Switch on GitHub](https://github.com/sandbox-quantum/switch)
+- Diagrams are [Mermaid](https://mermaid.js.org/); their sources are in [`docs/diagrams/`](https://github.com/anvithagowda098/blast-radius/tree/main/docs/diagrams)
+
 <!-- TODO before publishing:
-     - add links to the TanStack and Trigger.dev write-ups and check the 26-minute / 4.5-hour numbers against them
-     - add 2-3 screenshots from the live run (the refused approval, the team rooms, a tracker update)
-     - add the Wispr Flow Insights screenshot
-     - if your blog platform doesn't show SVG images, upload a PNG of docs/blog/how-it-works.svg instead -->
+     - add the Wispr Flow Insights screenshot -->

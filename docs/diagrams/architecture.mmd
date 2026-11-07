@@ -1,0 +1,20 @@
+flowchart TB
+    subgraph people["People make the calls"]
+        direction LR
+        IC["Security lead<br/>approves the response"]
+        OW["Team owners<br/>fix and report back"]
+    end
+    subgraph sw["Switch"]
+        direction LR
+        SA["sec-alerts room<br/>role: deputy<br/>docs: tracker, postmortem"]
+        TR["one room per team<br/>br-web, br-payments"]
+        SA <-->|"linked both ways"| TR
+    end
+    subgraph ag["Agents (Claude Code)"]
+        direction LR
+        SC["br-scout"] ~~~ FO["br-forensics"] ~~~ CO["br-commander"] ~~~ PL["br-planner"]
+    end
+    CORE[["python -m blast_radius<br/>deterministic, offline, tested"]]
+    people -->|"chat in the rooms"| sw
+    sw <-->|"@mentions and replies"| ag
+    ag -->|"run commands for every fact"| CORE

@@ -1,7 +1,6 @@
 """Docs stay honest: every relative link points at a real file, and the diagram is valid SVG."""
 
 import re
-import xml.etree.ElementTree as ET
 
 import pytest
 from conftest import ROOT
@@ -18,9 +17,12 @@ def test_relative_links_exist(doc):
         assert (doc.parent / target).exists(), f"{doc.name} links to missing {target}"
 
 
-def test_architecture_svg_is_valid_xml():
-    root = ET.parse(ROOT / "docs" / "architecture.svg").getroot()
-    assert root.tag.endswith("svg")
+def test_every_diagram_has_a_rendered_png():
+    sources = sorted((ROOT / "docs" / "diagrams").glob("*.mmd"))
+    assert sources, "no Mermaid sources"
+    for src in sources:
+        assert src.with_suffix(".png").is_file(), f"{src.name} has no rendered PNG"
+    assert "```mermaid" in (ROOT / "README.md").read_text(encoding="utf-8")
 
 
 def test_readme_commands_exist():

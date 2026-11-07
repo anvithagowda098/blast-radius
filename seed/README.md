@@ -1,8 +1,9 @@
 # Seed data
 
 - `advisories/tanstack-2026-05-11.json`: affected versions and IOCs for the
-  May 11, 2026 TanStack compromise, as listed in TanStack's postmortem and
-  StepSecurity's table. Re-check upstream before relying on it.
+  May 11, 2026 TanStack compromise, from [TanStack's postmortem](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem)
+  and [GitHub advisory GHSA-g7cv-rxg3-hmpx](https://github.com/advisories/GHSA-g7cv-rxg3-hmpx). The real incident hit 42
+  packages; this file lists 2 of them.
 - `repos/`: four **fictional** repos shaped like a real org after that
   advisory. Lockfiles are trimmed to the packages that matter. Every secret
   name is just a name: no values exist anywhere.
